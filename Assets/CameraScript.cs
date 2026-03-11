@@ -15,12 +15,13 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        
         MouseLook();
         transform.position = Player.position;
     }

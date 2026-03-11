@@ -28,6 +28,8 @@ public class ReturnScript : MonoBehaviour
     public void DenyReturn() 
     { 
       Panel.SetActive(false);
+        Player.GetComponent<PlayerMovementScript>().enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,7 +38,8 @@ public class ReturnScript : MonoBehaviour
         { 
             Panel.SetActive(true);
             Player.GetComponent<PlayerMovementScript>().enabled = false;
-            
+            Cursor.lockState = CursorLockMode.None;
         }
+        
     }
 }
