@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ReturnScript : MonoBehaviour
+public class LevelSelectReturnScript : MonoBehaviour
 {
     public GameObject Panel;
     public GameObject Player;
@@ -20,26 +20,26 @@ public class ReturnScript : MonoBehaviour
         
     }
 
-     public void ConfirmReturn() 
-     {
-        SceneManager.LoadScene("TitleScreen");
-     }
+    public void ConfirmReturn()
+    {
+        SceneManager.LoadScene("LevelSelectScene");
+    }
 
-    public void DenyReturn() 
-    { 
-        
+    public void DenyReturn()
+    {
+
         Player.GetComponent<PlayerMovementScript>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player")) 
+        if (other.gameObject.CompareTag("Player"))
         {
             Panel.SetActive(true);
             Player.GetComponent<PlayerMovementScript>().enabled = false;
             Cursor.lockState = CursorLockMode.None;
         }
-        
+
     }
 }
