@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class LevelScript : MonoBehaviour
 {
     public string Scene;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,11 +17,19 @@ public class LevelScript : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter(Collision collision)
+   
+    public void DoorInteraction() 
+    { 
+     SceneManager.LoadScene(Scene); 
+    }
+    public void Activate() 
     {
-        if (collision.gameObject.CompareTag("Player")) 
-        {
-            SceneManager.LoadScene(Scene); 
-        }
+        int ActiveLayer = LayerMask.NameToLayer("Door");
+        gameObject.layer = ActiveLayer;
+    }
+    public void Deactivate() 
+    {
+        int DeactiveLayer = LayerMask.NameToLayer("Default");
+        gameObject.layer = DeactiveLayer;
     }
 }
