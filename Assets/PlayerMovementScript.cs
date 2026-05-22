@@ -7,11 +7,14 @@ public class PlayerMovementScript : MonoBehaviour
     public float speed = 6f;
     public float TurnSpeed = 12f;
     public Transform CamPivot;
-
+    public LayerMask DoorMask;
+    public float InteractDistance;
     private Rigidbody rb;
     private Vector3 MoveDirection;
     private Vector3 InputDirection;
     private Vector3 TargetPosition;
+    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,6 +22,23 @@ public class PlayerMovementScript : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Interact();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)) 
+        { 
+            AirDash();
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -47,5 +67,60 @@ public class PlayerMovementScript : MonoBehaviour
 
         Quaternion TargetRot = Quaternion.LookRotation(MoveDirection);
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, TargetRot, TurnSpeed * Time.fixedDeltaTime));
+    }
+
+    void Jump() 
+    { 
+    
+    }
+
+    void AirDash() 
+    { 
+    
+    }
+    void Interact()
+    {
+        Vector3[] directions = 
+        {
+            transform.forward,
+            transform.forward + transform.right,
+            transform.right,
+            transform.forward - transform.right,
+            -transform.forward,
+            -(transform.forward + transform.right),
+            -transform.right,
+            -(transform.forward - transform.right),
+                                  
+        };
+        InteractableObject ClosestDoor = null;
+        foreach (Vector3 dir in directions) 
+        { 
+          Ray ray = new Ray(transform.position, dir);
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray, out hit, InteractDistance, DoorMask)) 
+            { 
+              InteractableObject CurrentDoor = hit.collider.GetComponent<InteractableObject>();
+                if (ClosestDoor == null)
+                {
+                    ClosestDoor = CurrentDoor;
+                }
+                else if (CurrentDoor != null && ClosestDoor != null) 
+                { 
+                    if(Vector3.Distance(transform.position, CurrentDoor.transform.position) < Vector3.Distance(transform.position, ClosestDoor.transform.position)) 
+                    {
+                        ClosestDoor = CurrentDoor;
+                    }
+                }
+
+            }
+            Debug.DrawRay(transform.position, dir * InteractDistance, Color.red, 1f);
+
+        }
+        Debug.Log(ClosestDoor);
+        if (ClosestDoor != null) 
+        { 
+            ClosestDoor.Interact();
+        }
     }
 }

@@ -11,6 +11,8 @@ public class DoorManagerScript : MonoBehaviour
         int i = 0;
         foreach (LevelScript level in Doors) 
         {
+            
+            Debug.Log(level + "-" + ProgressionManagerScript.Levels[i]);
             level.enabled = ProgressionManagerScript.Levels[i];
             i++;
             

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class LevelScript : MonoBehaviour
+public class LevelScript : InteractableObject
 {
     public string Scene;
     // Start is called before the first frame update
@@ -18,9 +18,14 @@ public class LevelScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) 
-        {
-            SceneManager.LoadScene(Scene); 
-        }
+         
+    }
+
+    public override void Interact()
+    {
+        
+        
+            SceneManager.LoadScene(Scene);
+        
     }
 }
