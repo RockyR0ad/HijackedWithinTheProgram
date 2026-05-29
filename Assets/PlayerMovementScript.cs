@@ -9,6 +9,12 @@ public class PlayerMovementScript : MonoBehaviour
     public Transform CamPivot;
     public LayerMask DoorMask;
     public float InteractDistance;
+    public float JumpForce;
+    public float DashSpeed;
+    public float MaxSpeed;
+    public LayerMask GroundMask;
+    public Transform GroundCastPos;
+    public Transform PlayerRespawnPoint;
     private Rigidbody rb;
     private Vector3 MoveDirection;
     private Vector3 InputDirection;
@@ -29,7 +35,7 @@ public class PlayerMovementScript : MonoBehaviour
             Interact();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             Jump();
         }
@@ -37,6 +43,12 @@ public class PlayerMovementScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift)) 
         { 
             AirDash();
+        }
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, MaxSpeed);
+        if(transform.position.y < -5f) 
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+            transform.position = PlayerRespawnPoint.position;
         }
     }
     // Update is called once per frame
@@ -52,6 +64,22 @@ public class PlayerMovementScript : MonoBehaviour
             return;
         }
 
+        if(rb.velocity.x > MaxSpeed) 
+        {
+            X = 0;
+        }
+        if (-rb.velocity.x < -MaxSpeed)
+        {
+            X = 0;
+        }
+        if (rb.velocity.z > MaxSpeed)
+        {
+            Z = 0;
+        }
+        if (-rb.velocity.z < -MaxSpeed)
+        {
+            Z = 0;
+        }
         Vector3 CamForward = CamPivot.forward;
         Vector3 CamRight = CamPivot.right;
 
@@ -62,21 +90,39 @@ public class PlayerMovementScript : MonoBehaviour
         CamRight.Normalize();
 
         MoveDirection = CamForward * Z + CamRight * X;
-        TargetPosition = rb.position + MoveDirection * speed * Time.fixedDeltaTime;
-        rb.MovePosition(TargetPosition);
+        TargetPosition = MoveDirection * speed * Time.fixedDeltaTime;
+        rb.AddForce(TargetPosition);
 
         Quaternion TargetRot = Quaternion.LookRotation(MoveDirection);
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, TargetRot, TurnSpeed * Time.fixedDeltaTime));
     }
 
-    void Jump() 
+    public void Jump() 
     { 
-    
+        if(InputDirection.magnitude < 0.1f)
+        {
+            rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        }
+        else 
+        { 
+            rb.AddForce(transform.forward +  Vector3.up * JumpForce, ForceMode.Impulse);
+        }
+    }
+    public bool IsGrounded() 
+    { 
+        if(Physics.Raycast(GroundCastPos.position, Vector3.down, out RaycastHit hit, .2f, GroundMask)) 
+        { 
+            return true;
+        }
+        else 
+        { 
+           return false;
+        }
     }
 
     void AirDash() 
     { 
-    
+      rb.AddForce(transform.forward * DashSpeed, ForceMode.Impulse);
     }
     void Interact()
     {
