@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GoalScript : MonoBehaviour
 {
     public int ReturnTimer;
-
+    public string Scene;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,14 +15,17 @@ public class GoalScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (ReturnTimer >= 5) 
+        { 
+         SceneManager.LoadScene(Scene);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player")) 
-        { 
-         
+        {
+            ReturnTimer += 1;
         
         }
     }

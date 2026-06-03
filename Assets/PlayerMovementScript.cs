@@ -32,6 +32,7 @@ public class PlayerMovementScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            
             Interact();
         }
 
@@ -64,7 +65,7 @@ public class PlayerMovementScript : MonoBehaviour
             return;
         }
 
-        if(rb.velocity.x > MaxSpeed) 
+        if (rb.velocity.x > MaxSpeed)
         {
             X = 0;
         }
@@ -167,6 +168,52 @@ public class PlayerMovementScript : MonoBehaviour
         if (ClosestDoor != null) 
         { 
             ClosestDoor.Interact();
+        }
+    }
+
+    void SignInteract()
+    {
+        Vector3[] directions =
+        {
+            transform.forward,
+            transform.forward + transform.right,
+            transform.right,
+            transform.forward - transform.right,
+            -transform.forward,
+            -(transform.forward + transform.right),
+            -transform.right,
+            -(transform.forward - transform.right),
+
+        };
+        InteractableObject ClosestSign = null;
+        foreach (Vector3 dir in directions)
+        {
+            Ray ray = new Ray(transform.position, dir);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, InteractDistance, DoorMask))
+            {
+                InteractableObject CurrentSign = hit.collider.GetComponent<InteractableObject>();
+                if (ClosestSign == null)
+                {
+                    ClosestSign = CurrentSign;
+                }
+                else if (CurrentSign != null && ClosestSign != null)
+                {
+                    if (Vector3.Distance(transform.position, CurrentSign.transform.position) < Vector3.Distance(transform.position, ClosestSign.transform.position))
+                    {
+                        ClosestSign = CurrentSign;
+                    }
+                }
+
+            }
+            Debug.DrawRay(transform.position, dir * InteractDistance, Color.red, 1f);
+
+        }
+        Debug.Log(ClosestSign);
+        if (ClosestSign != null)
+        {
+            ClosestSign.SignInteract();
         }
     }
 }

@@ -781,6 +781,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1884445631}
   - component: {fileID: 1884445632}
+  - component: {fileID: 1884445633}
   m_Layer: 0
   m_Name: Goal
   m_TagString: Untagged
@@ -817,6 +818,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReturnTimer: 0
+  Scene: World1
+--- !u!65 &1884445633
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884445630}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3982735, y: 1.9149151, z: 1.8455696}
+  m_Center: {x: 0.22891045, y: 0.23168278, z: 0.4227848}
 --- !u!1 &1955960194
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,16 +921,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016bd4fed631e2741804a41d8440938b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 1000
   TurnSpeed: 12
   CamPivot: {fileID: 126114774}
   DoorMask:
     serializedVersion: 2
     m_Bits: 64
   InteractDistance: 16
-  JumpForce: 16
-  DashSpeed: 100
-  MaxSpeed: 500
+  JumpForce: 8
+  DashSpeed: 20
+  MaxSpeed: 250
   GroundMask:
     serializedVersion: 2
     m_Bits: 128
