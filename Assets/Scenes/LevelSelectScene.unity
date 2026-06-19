@@ -1885,9 +1885,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016bd4fed631e2741804a41d8440938b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 10000
   TurnSpeed: 12
   CamPivot: {fileID: 294024759}
+  DoorMask:
+    serializedVersion: 2
+    m_Bits: 0
+  InteractDistance: 0
+  JumpForce: 0
+  DashSpeed: 0
+  MaxSpeed: 0
+  GroundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  GroundCastPos: {fileID: 0}
+  PlayerRespawnPoint: {fileID: 0}
 --- !u!4 &2030024455
 Transform:
   m_ObjectHideFlags: 0
